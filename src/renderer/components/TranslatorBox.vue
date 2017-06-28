@@ -4,44 +4,50 @@
       <div>
         <input type="text" v-model="inputText"> 
         <button @click="lookUp">Poišči</button>
-        <pre>{{explanation}}</pre>
+        <Explanations v-bind:explanation="this.explanation"></Explanations>
       </div>
-      
-      
     </main>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
+  import xml2js from 'xml2js'
   import credentials from '@/components/credentials/credential'
+  import Explanations from '@/components/Explanations'
   axios.defaults.adapter = require('axios/lib/adapters/http')
+
   export default {
     name: 'translator-box',
-    // components: { SystemInformation },
+    components: { Explanations },
     data () {
       return {
         inputText: 'random',
-        explanation: {}
+        explanation: {},
+        credentials: credentials
       }
     },
     methods: {
       lookUp () {
-        let text = this.inputText
-        let getUrl = `${credentials.apiUrl}/entries/en/${text.toLowerCase()}`
-        axios.get(getUrl, {headers: {'app_id': credentials.appId, 'app_key': credentials.appKey}})
-          .then((response) => {
-            this.explanation = response.data
+        let xmlConvert = xml2js.parseString
+        let lookUpUrl = `${credentials.merriam.medical.url}${this.inputText}?key=${credentials.merriam.medical.key}`
+        console.log(lookUpUrl)
+        axios.get(lookUpUrl)
+        .then(response => {
+          xmlConvert(response.data, (err, result) => {
+            if (err) console.log(err)
+            this.explanation = result
           })
-          .catch((error) => {
-            console.log(error)
-          })
+        })
+        .catch(e => {
+          console.log(e)
+        })
       }
     }
   }
 </script>
 
-<style>
+<style scoped>
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
   * {
