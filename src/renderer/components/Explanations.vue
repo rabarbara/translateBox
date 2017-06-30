@@ -1,15 +1,14 @@
 <template>
-  <div id="wrapper">
-      <div v-for="singleExplanation in this.explanation.entry_list.entry" v-bind:key="singleExplanation">      
-        <h1>{{singleExplanation.$.id}}</h1>
-        <div v-for="definition in singleExplanation.def[0].sensb" v-bind:key="definition">
-          <p class="explanations" v-for="explanationString in definition.sens" v-bind:key="explanationString">{{explanationString}}</p>
-        </div>
-      </div>
+  <div id="wrapper" >
+    <div v-bind:class="{hide:hide}">
+      
+    </div>
+
   </div>
 </template>
 
 <script>
+  import _ from 'lodash'
   export default {
     name: 'explanations',
     // components: { SystemInformation },
@@ -19,6 +18,36 @@
       }
     },
     methods: {
+    },
+    computed: {
+      entries () {
+        if (_.isEmpty(this.explanation)) return {}
+        let items = this.explanation.entry_list.entry
+        let rearranged = items.map(item => {
+          return {
+            entryWord: item.ew[0], // main word
+            definitions: item.def, // all definitions
+            wordType: item.fl // noun, verb ...
+          }
+        })
+        .map(item => {
+          let definitions = item.definitions.map(value => {
+            return value.sensb
+          })
+          .reduce((a, b) => {
+            return a.concat(b)
+          }, [])
+          .map(def => {
+            return def.sens
+          })
+          item.definitions = definitions
+          return item
+        })
+        return rearranged
+      },
+      hide () {
+        return _.isEmpty(this.explanation)
+      }
     }
   }
 </script>
@@ -36,8 +65,8 @@
   #wrapper {
     background: rgba(0, 0, 0, .2);
   }
-  .show {
-    display:block;
+  .hide {
+    display:none;
   }
   h1 {
     color: rgb(15, 119, 160);

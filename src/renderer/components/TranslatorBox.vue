@@ -13,6 +13,7 @@
 <script>
   import axios from 'axios'
   import xml2js from 'xml2js'
+
   import credentials from '@/components/credentials/credential'
   import Explanations from '@/components/Explanations'
   axios.defaults.adapter = require('axios/lib/adapters/http')
@@ -24,7 +25,8 @@
       return {
         inputText: 'random',
         explanation: {},
-        credentials: credentials
+        credentials: credentials,
+        rawExplanation: ''
       }
     },
     methods: {
@@ -34,6 +36,7 @@
         console.log(lookUpUrl)
         axios.get(lookUpUrl)
         .then(response => {
+          this.rawExplanation = response.data
           xmlConvert(response.data, (err, result) => {
             if (err) console.log(err)
             this.explanation = result
