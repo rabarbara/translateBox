@@ -9,6 +9,7 @@
               <p><span class="number" v-if="singleDef.number">{{singleDef.number}}</span> 
                   <span class="text" v-for="(text, index) in singleDef.meaning" :key="index">
                     <span v-if="text.text">{{text.text}}</span><span v-if="text.it" class="special">{{text.it}}</span>
+                    <span v-if="text.sx" class="cross-reference" @click="$emit('followUp', text.sx)">{{text.sx}}</span>
                   </span>
               </p>
             </div>
@@ -55,14 +56,17 @@
               let inlineMeaning = item.descendantWithPath('dt').children.filter(item => {
                 // this will have to be expanded
                 // check if is a text node and has a text property or if the name of the xml element is 'it'. This excludes all other elements, such as <ca>
-                return (item.text || item.name === 'it')
+                return (item.text || item.name === 'it' || item.name === 'sx')
               })
               .map(item => {
                 // create a key value relationship for the definitions so that you can create a different template element in the vue template based on the key
-                if (item.name === 'it') {
-                  return {'it': item.val}
+                if (item.text) {
+                  return {'text': item.text}
                 }
-                return {'text': item.text}
+                let container = {}
+                let name = item.name
+                container[name] = item.val
+                return container
               })
 
               let calledAlso = item.descendantWithPath('dt').children.filter(item => {

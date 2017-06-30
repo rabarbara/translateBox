@@ -2,9 +2,9 @@
   <div id="wrapper">
     <main>
       <div>
-        <input type="text" v-model="inputText" @click="lookUp"> 
+        <input type="text" v-model="inputText" @click="lookUp()">
         <button @click="lookUp">Poišči</button>
-        <Explanations v-bind:explanation="this.explanation"></Explanations>
+        <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp"></Explanations>
       </div>
     </main>
   </div>
@@ -27,8 +27,8 @@
       }
     },
     methods: {
-      lookUp () {
-        let lookUpUrl = `${credentials.merriam.medical.url}${this.inputText}?key=${credentials.merriam.medical.key}`
+      lookUp (term = this.inputText) {
+        let lookUpUrl = `${credentials.merriam.medical.url}${term}?key=${credentials.merriam.medical.key}`
         console.log(lookUpUrl)
         axios.get(lookUpUrl)
         .then(response => {
