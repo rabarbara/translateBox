@@ -2,7 +2,7 @@
   <div id="wrapper">
     <main>
       <div>
-        <input type="text" v-model="inputText"> 
+        <input type="text" v-model="inputText" @click="lookUp"> 
         <button @click="lookUp">Poišči</button>
         <Explanations v-bind:explanation="this.explanation"></Explanations>
       </div>
@@ -12,8 +12,6 @@
 
 <script>
   import axios from 'axios'
-  import xml2js from 'xml2js'
-
   import credentials from '@/components/credentials/credential'
   import Explanations from '@/components/Explanations'
   axios.defaults.adapter = require('axios/lib/adapters/http')
@@ -23,28 +21,20 @@
     components: { Explanations },
     data () {
       return {
-        inputText: 'random',
-        explanation: {},
-        credentials: credentials,
-        rawExplanation: ''
+        inputText: 'measles',
+        explanation: '',
+        credentials: credentials
       }
     },
     methods: {
       lookUp () {
-        let xmlConvert = xml2js.parseString
         let lookUpUrl = `${credentials.merriam.medical.url}${this.inputText}?key=${credentials.merriam.medical.key}`
         console.log(lookUpUrl)
         axios.get(lookUpUrl)
         .then(response => {
-          this.rawExplanation = response.data
-          xmlConvert(response.data, (err, result) => {
-            if (err) console.log(err)
-            this.explanation = result
-          })
+          this.explanation = response.data
         })
-        .catch(e => {
-          console.log(e)
-        })
+      .catch(e => console.log(e))
       }
     }
   }
