@@ -1,7 +1,7 @@
 <template>
-  <div id="wrapper" >
+  <div id="content" >
     <div v-bind:class="{hide:hide}">
-      <div v-for="(entry, index) in entries" :key="index">
+      <div v-for="(entry, index) in entries" :key="index" class="card">
         <p class="entryWord">{{entry.name}}</p>
         <div class="explanations">
           <div class="explanation" v-for="(definition, index) in entry.definitions" :key="index">
@@ -9,7 +9,7 @@
               <p><span class="number" v-if="singleDef.number">{{singleDef.number}}</span> 
                   <span class="text" v-for="(text, index) in singleDef.meaning" :key="index">
                     <span v-if="text.text">{{text.text}}</span><span v-if="text.it" class="special">{{text.it}}</span>
-                    <span v-if="text.sx" class="cross-reference" @click="$emit('followUp', text.sx)">{{text.sx}}</span>
+                    <span v-if="text.sx" @click="$emit('followUp', text.sx)">See:  <span class="cross-reference">{{text.sx}}</span></span>
                   </span>
               </p>
             </div>
@@ -109,8 +109,10 @@
   }
 
   body { font-family: 'Source Sans Pro', sans-serif; }
-  #wrapper {
-    background: rgba(0, 0, 0, .2);
+
+  #content {
+    /*padding: 10px;*/
+    padding-top: 10px;
   }
   .hide {
     display:none;
@@ -121,7 +123,7 @@
   .entryWord {
     color: orange;
     font-weight: bold;
-    margin: 1em 0;
+    /*margin: 1em 0;*/
     font-size: 2em;
     text-transform:capitalize;
   }
@@ -140,5 +142,27 @@
   }
   div.single-definition {
     margin-top: 1.3em;
+  }
+  span.cross-reference {
+    text-decoration: underline;
+    color: rgba(0,100,255,1);
+    cursor: pointer;
+    margin-left:.2em;
+    font-size: 1.2em; 
+  }
+  /*.explanations .explanation:after {
+    content: '';
+    width: 80%;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    display: block;
+    margin:.4em auto;
+  }*/
+  .card {
+    border: 2px solid rgba(0,0,0,.05);
+    padding: 10px;
+    border-radius: 1em;
+    background: white;
+    margin-top: 1em;
+    box-shadow: 5px 5px 5px rgba(0,0,0,.1)
   }
 </style>
