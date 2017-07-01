@@ -1,14 +1,13 @@
 <template>
-  <div id="wrapper">
+  <div id="container">
     <main>
-      
       <div class="lookup_container">
         <h1 class="lookup_heading">What do you want to know?</h1>
         <div class="lookup_search">
           <input type="text" v-model="inputText" @keyup.enter="lookUp()" class="lookup_input" placeholder="?">
-          <button @click="lookUp()" class="lookup_button hvr-sweep-to-right">Poišči</button>
+          <button @click="lookUp()" class="lookup_button hvr-sweep-to-right">Search</button>
         </div>
-        <div class="spinner">
+        <div class="spinner" v-bind:class="{hide:!spinner}">
           <div class="sk-folding-cube">
             <div class="sk-cube1 sk-cube"></div>
             <div class="sk-cube2 sk-cube"></div>
@@ -16,7 +15,7 @@
             <div class="sk-cube3 sk-cube"></div>
           </div>
         </div>
-        <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp"></Explanations>
+        <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp" v-bind:class="{hide:spinner}"></Explanations>
       </div>
     </main>
   </div>
@@ -35,15 +34,18 @@
       return {
         inputText: '',
         explanation: '',
-        credentials: credentials
+        credentials: credentials,
+        spinner: false
       }
     },
     methods: {
       lookUp (term = this.inputText) {
+        this.spinner = true
         let lookUpUrl = `${credentials.merriam.medical.url}${term}?key=${credentials.merriam.medical.key}`
         console.log(lookUpUrl)
         axios.get(lookUpUrl)
         .then(response => {
+          this.spinner = false
           this.explanation = response.data
         })
       .catch(e => console.log(e))
@@ -64,15 +66,15 @@
   body { font-family: 'Source Sans Pro', sans-serif; }
   $main-color: rgb(117, 169, 255);
 
-  #wrapper {
+  #container {
     background: $main-color;
-    height:100vh;
+    width:100%;
   }
   main {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: inherit;
+    // align-items: center;
+    // height: 100vh;
   }
   .spinner {
     margin-top:4em;
