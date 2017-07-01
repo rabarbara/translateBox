@@ -103,8 +103,11 @@
   }
 </script>
 
-<style>
+<style lang="scss">
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+  $white: white;
+  $main-color: rgb(117, 169, 255);
+  $text: #555;
 
   * {
     box-sizing: border-box;
@@ -124,15 +127,14 @@
   .hide {
     display:none;
   }
-  h1 {
-    color: rgb(15, 119, 160);
-  }
   .entryWord {
-    color: orange;
+    color: $text;
     font-weight: bold;
     /*margin: 1em 0;*/
-    font-size: 2em;
+    font-size: 1.6em;
     text-transform:capitalize;
+    border-bottom: 3px solid $text;
+    padding-bottom: 5px;
   }
   .special {
     font-style: italic;
@@ -151,25 +153,49 @@
     margin-top: 1.3em;
   }
   span.cross-reference {
-    text-decoration: underline;
-    color: rgba(0,100,255,1);
+    position:relative;
+    color: $text;
     cursor: pointer;
     margin-left:.2em;
-    font-size: 1.2em; 
+    font-size: 1.2em;
+    border-bottom: 3px solid $text;
+    padding-bottom: 0;
+    text-transform: uppercase;
+    
+    &:hover {
+      border-bottom: 0px solid $text;
+      color: darken($main-color, 20);
+    }
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      bottom: -3px;
+      left: 0;
+      background-color: darken($main-color, 20);
+      visibility: hidden;
+      transform: scaleX(0);
+      transition: all 0.3s ease-in-out 0s;
+    }
+
+    &:hover::before {
+      visibility: visible;
+      -webkit-transform: scaleX(1);
+      transform-origin: left left;
+      transform: scaleX(1);
+    }
   }
-  /*.explanations .explanation:after {
-    content: '';
-    width: 80%;
-    border-bottom: 1px solid rgba(0,0,0,.2);
-    display: block;
-    margin:.4em auto;
-  }*/
+  
+  .explanations {
+    padding-left: 10px;
+  }
   .card {
-    border: 2px solid rgba(0,0,0,.05);
-    padding: 10px;
-    border-radius: 1em;
+    border: 3px solid #555;
     background: white;
-    margin-top: 1em;
-    box-shadow: 5px 5px 5px rgba(0,0,0,.1)
+    padding: 10px;
+    margin-top:1em;
+    color: #555;
+    font-size: 1.2em;
   }
 </style>
