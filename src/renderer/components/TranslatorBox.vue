@@ -16,7 +16,7 @@
           </div>
         </div>
       </div>
-      <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp" v-bind:class="{hide:spinner}"></Explanations>
+      <Explanations v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
   </div>
 </template>
@@ -49,6 +49,10 @@
           this.explanation = response.data
         })
       .catch(e => console.log(e))
+      },
+      followUp (term) {
+        this.inputText = term.toLowerCase()
+        return this.lookUp(term)
       }
     }
   }
