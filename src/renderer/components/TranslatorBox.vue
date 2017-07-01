@@ -72,8 +72,9 @@
     display: none;
   }
   main {
-    width:65%;
+    width:90%;
     margin: 0 auto;
+    max-width: 560px;
   }
   .lookup_container {
    border: 3px solid white;
