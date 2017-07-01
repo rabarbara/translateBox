@@ -1,15 +1,19 @@
 <template>
   <div id="content" >
     <div v-bind:class="{hide:hide}">
-      <div v-for="(entry, index) in entries" :key="index" class="card">
+      <div v-for="entry in entries" :key="entry.id" class="card">
         <p class="entryWord">{{entry.name}}</p>
         <div class="explanations">
-          <div class="explanation" v-for="(definition, index) in entry.definitions" :key="index">
-            <div class="single-definition" v-for="(singleDef, index) in definition" :key="index">
+          <div class="explanation" v-for="definition in entry.definitions" :key="definition.id">
+            <div class="single-definition" v-for="singleDef in definition" :key="singleDef.id">
               <p><span class="number" v-if="singleDef.number">{{singleDef.number}}</span> 
-                  <span class="text" v-for="(text, index) in singleDef.meaning" :key="index">
+                  <span class="text" v-for="text in singleDef.meaning" :key="text.id">
                     <span v-if="text.text">{{text.text}}</span><span v-if="text.it" class="special">{{text.it}}</span>
                     <span v-if="text.sx" @click="$emit('followUp', text.sx)">See:  <span class="cross-reference">{{text.sx}}</span></span>
+                  </span>
+                  <span v-if="singleDef.calledAlso.length > 0" class="called-also"> – Called also</span>
+                  <span class="called-also" v-for="ca in singleDef.calledAlso" :key="ca.id">
+                    <span v-if="ca" @click="$emit('followUp', ca)" class="cross-reference">{{ca}}</span>
                   </span>
               </p>
             </div>
@@ -109,7 +113,10 @@
   }
 
   body { font-family: 'Source Sans Pro', sans-serif; }
-
+  .called-also {
+    font-size: .8em;
+    font-style: italic;
+  }
   #content {
     /*padding: 10px;*/
     padding-top: 10px;
