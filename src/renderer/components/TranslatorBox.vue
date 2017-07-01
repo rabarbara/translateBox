@@ -15,9 +15,8 @@
             <div class="sk-cube3 sk-cube"></div>
           </div>
         </div>
-        <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp" v-bind:class="{hide:spinner}"></Explanations>
       </div>
-      <div class="color"></div>
+      <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
   </div>
 </template>
@@ -65,16 +64,6 @@
   }
   body { font-family: 'Source Sans Pro', sans-serif; background: $main-color;}
 
-  #container {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-  }
-  main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
   .spinner {
     margin-top:4em;
     color:white;
@@ -82,11 +71,17 @@
   .hide {
     display: none;
   }
+  main {
+    width:65%;
+    margin: 0 auto;
+  }
   .lookup_container {
    border: 3px solid white;
    padding: 2em;
    box-shadow: .1em .1em .1em rgba(255,255,255,.2);
+   margin:auto;
    margin-top:2em;
+
   }
   .lookup_search {
     display:flex;
