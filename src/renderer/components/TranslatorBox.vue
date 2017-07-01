@@ -42,7 +42,7 @@
     methods: {
       lookUp (term = this.inputText) {
         this.spinner = true
-        let lookUpUrl = `${credentials.merriam.medical.url}${term}?key=${credentials.merriam.medical.key}`
+        let lookUpUrl = `${credentials.merriam.medical.url}${encodeURI(term.trim())}?key=${credentials.merriam.medical.key}`
         console.log(lookUpUrl)
         axios.get(lookUpUrl)
         .then(response => {
