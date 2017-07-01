@@ -4,7 +4,7 @@
       <div class="lookup_container">
         <h1 class="lookup_heading">What do you want to know?</h1>
         <div class="lookup_search">
-          <input type="text" v-model="inputText" @keyup.enter="lookUp()" class="lookup_input" placeholder="?">
+          <input type="text" v-model="inputText" @keyup.enter="lookUp()" class="lookup_input" placeholder="Type in your word ...">
           <button @click="lookUp()" class="lookup_button hvr-sweep-to-right">Search</button>
         </div>
         <div class="spinner" v-bind:class="{hide:!spinner}">
@@ -15,8 +15,8 @@
             <div class="sk-cube3 sk-cube"></div>
           </div>
         </div>
-        <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp" v-bind:class="{hide:spinner}"></Explanations>
       </div>
+      <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
   </div>
 </template>
@@ -69,12 +69,16 @@
   #container {
     background: $main-color;
     width:100%;
+    // height:100vh;
+    position: absolute;
+    top:0;
+    bottom:0;
   }
   main {
     display: flex;
     justify-content: center;
     // align-items: center;
-    // height: 100vh;
+    height: 100%;
   }
   .spinner {
     margin-top:4em;
@@ -87,13 +91,14 @@
    border: 3px solid white;
    padding: 2em;
    box-shadow: .1em .1em .1em rgba(255,255,255,.2);
+   margin: 0 auto;
   }
   .lookup_search {
     display:flex;
     justify-content: space-between;
   }
   .lookup_input {
-    border: 2px solid rgba(229, 229, 229, .9);
+    border: 3px solid rgb(255, 255, 255);
     padding: 1em;
     /*width: 60%;*/
     flex:8;
@@ -107,8 +112,16 @@
     text-transform: uppercase;
     color: white;
     cursor: pointer;
+  }
+
+   input[type=text].lookup_input {
+    background: rgba(0,0,0,0);
+    color: white;
+    font-size: 1em;
     
-    
+    &::placeholder {
+      color: rgba(255,255,255,.6);
+    }
   }
   .lookup_heading {
     color: white;
