@@ -15,8 +15,9 @@
             <div class="sk-cube3 sk-cube"></div>
           </div>
         </div>
+        <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp" v-bind:class="{hide:spinner}"></Explanations>
       </div>
-      <Explanations v-bind:explanation="this.explanation" v-on:followUp="lookUp" v-bind:class="{hide:spinner}"></Explanations>
+      <div class="color"></div>
     </main>
   </div>
 </template>
@@ -54,31 +55,25 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-
+    $main-color: rgb(117, 169, 255);
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
-
-  body { font-family: 'Source Sans Pro', sans-serif; }
-  $main-color: rgb(117, 169, 255);
+  body { font-family: 'Source Sans Pro', sans-serif; background: $main-color;}
 
   #container {
-    background: $main-color;
-    width:100%;
-    // height:100vh;
-    position: absolute;
-    top:0;
-    bottom:0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
   }
   main {
     display: flex;
     justify-content: center;
-    // align-items: center;
-    height: 100%;
+    align-items: center;
   }
   .spinner {
     margin-top:4em;
@@ -91,7 +86,7 @@
    border: 3px solid white;
    padding: 2em;
    box-shadow: .1em .1em .1em rgba(255,255,255,.2);
-   margin: 0 auto;
+   margin-top:2em;
   }
   .lookup_search {
     display:flex;
