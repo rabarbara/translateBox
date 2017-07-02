@@ -7,6 +7,11 @@
           <input type="text" v-model="inputText" @keyup.enter="lookUp()" class="lookup_input" placeholder="Type in your word ...">
           <button @click="lookUp()" class="lookup_button hvr-sweep-to-right">Search</button>
         </div>
+        <div v-if="errorMessage">Oops, something went wrong with the dictionary.
+          <pre>
+            {{this.errorMessage}}
+          </pre>
+        </div>
         <div class="spinner" v-bind:class="{hide:!spinner}">
           <div class="sk-folding-cube">
             <div class="sk-cube1 sk-cube"></div>
@@ -16,7 +21,7 @@
           </div>
         </div>
       </div>
-      <Explanations v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
+      <Explanations v-if="inputText" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
   </div>
 </template>
@@ -35,7 +40,9 @@
         inputText: '',
         explanation: '',
         credentials: credentials,
-        spinner: false
+        spinner: false,
+        error: false,
+        errorMessage: ''
       }
     },
     methods: {
@@ -48,7 +55,10 @@
           this.spinner = false
           this.explanation = response.data
         })
-      .catch(e => console.log(e))
+      .catch(e => {
+        this.errorMessage = true
+        this.errorMessage = e
+      })
       },
       followUp (term) {
         this.inputText = term.toLowerCase()
