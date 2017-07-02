@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, globalShortcut } from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -20,10 +20,12 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 260,
     useContentSize: true,
-    width: 1000,
-    webSecurity: true
+    width: 635,
+    webSecurity: true,
+    frame: false,
+    resizable: true
   })
 
   mainWindow.loadURL(winURL)
@@ -31,6 +33,23 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+  let focused = 0
+  const ret = globalShortcut.register('Alt+Space', () => {
+    console.log('working')
+    if (focused) {
+      mainWindow.blur()
+      focused = 0
+    } else {
+      mainWindow.focus()
+      focused = 1
+    }
+  })
+  if (!ret) {
+    console.log('registration failed')
+  }
+
+  // Check whether a shortcut is registered.
+  console.log(globalShortcut.isRegistered('CommandOrControl+X'))
 }
 
 app.on('ready', createWindow)
@@ -47,6 +66,13 @@ app.on('activate', () => {
   }
 })
 
+app.on('will-quit', () => {
+  // Unregister a shortcut.
+  globalShortcut.unregister('CommandOrControl+X')
+
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll()
+})
 /**
  * Auto Updater
  *
