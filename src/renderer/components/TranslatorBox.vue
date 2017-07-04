@@ -61,6 +61,7 @@
         .then(response => {
           this.spinner = false
           this.explanation = response.data
+          this.resize()
         })
       .catch(e => {
         this.error = true
@@ -78,15 +79,16 @@
         let [contentWidth, contentHeight] = win.getContentSize()
         let [positionX, positionY] = win.getPosition()
         let extraHeight = height - positionY - 30
-        win.setSize(contentWidth, extraHeight, true)
+        contentHeight <= this.winProperties.height ? win.setSize(contentWidth, extraHeight, true) : win.setSize(contentWidth, this.winProperties.height, true)
+        console.log(contentHeight, this.winProperties.height)
       }
     },
     created () {
       let getScreenProperties = () => {
         let win = electron.remote.getCurrentWindow()
         let [width, height] = win.getSize()
-        this.winProperties.width = width
-        this.winProperties.height = height
+        this.winProperties.width = Number(width)
+        this.winProperties.height = Number(height)
       }
       return getScreenProperties()
     }
