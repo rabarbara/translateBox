@@ -2,7 +2,7 @@
   <div id="container">
     <main>
       <div class="lookup_container">
-        <h1 class="lookup_heading">What do you want to know?</h1>
+        <h1 class="lookup_heading">What do you want to know? <button @click="resize()">Resize</button></h1>
         <div class="lookup_search">
           <input type="text" v-model="inputText" @keyup.enter="lookUp()" class="lookup_input" placeholder="Type in your word ...">
           <button @click="lookUp()" class="lookup_button hvr-sweep-to-right">Search</button>
@@ -30,8 +30,10 @@
   import axios from 'axios'
   import credentials from '@/components/credentials/credential'
   import Explanations from '@/components/Explanations'
+  import electron from 'electron'
+  
   axios.defaults.adapter = require('axios/lib/adapters/http')
-
+  
   export default {
     name: 'translator-box',
     components: { Explanations },
@@ -42,7 +44,12 @@
         credentials: credentials,
         spinner: false,
         error: false,
-        errorMessage: ''
+        errorMessage: '',
+        winProperties: {
+          width: 0,
+          height: 0
+        }
+
       }
     },
     methods: {
@@ -56,14 +63,32 @@
           this.explanation = response.data
         })
       .catch(e => {
-        this.errorMessage = true
+        this.error = true
         this.errorMessage = e
       })
       },
       followUp (term) {
         this.inputText = term.toLowerCase()
         return this.lookUp(term)
+      },
+      resize () {
+        /* eslint-disable no-unused-vars */
+        let {width, height} = electron.remote.screen.getPrimaryDisplay().workAreaSize
+        let win = electron.remote.getCurrentWindow()
+        let [contentWidth, contentHeight] = win.getContentSize()
+        let [positionX, positionY] = win.getPosition()
+        let extraHeight = height - positionY - 30
+        win.setSize(contentWidth, extraHeight, true)
       }
+    },
+    created () {
+      let getScreenProperties = () => {
+        let win = electron.remote.getCurrentWindow()
+        let [width, height] = win.getSize()
+        this.winProperties.width = width
+        this.winProperties.height = height
+      }
+      return getScreenProperties()
     }
   }
 </script>
