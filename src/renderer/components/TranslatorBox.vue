@@ -24,9 +24,7 @@
            </div>
                     <div class="looking_for" v-bind:class="{hide:!spinner}">Searching for: {{inputText}}</div>
          </div>
-        </div>
-         
-        
+        </div>        
       </div>
       <Explanations v-if="inputText" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
