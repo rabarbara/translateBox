@@ -26,7 +26,7 @@
          </div>
         </div>        
       </div>
-      <Explanations v-if="inputText" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
+      <Explanations  v-if="this.displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
   </div>
 </template>
@@ -54,7 +54,17 @@
           width: 0,
           height: 0
         }
-
+      }
+    },
+    computed: {
+      displayExplanation () {
+        // if the inputtext has something in it and the explanation was successful, only then show the explanation
+        // if the inputtext is blank or the explanation was not successful, hide the explanation component
+        if (!this.inputText) {
+          this.explanation = ''
+          return false
+        }
+        return true
       }
     },
     methods: {
