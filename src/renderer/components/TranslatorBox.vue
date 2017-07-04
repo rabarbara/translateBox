@@ -2,7 +2,7 @@
   <div id="container">
     <main>
       <div class="lookup_container">
-        <h1 class="lookup_heading">What do you want to know? <button @click="resize()">Resize</button></h1>
+        <h1 class="lookup_heading">What do you want to know?</h1>
         <div class="lookup_search">
           <input type="text" v-model="inputText" @keyup.enter="lookUp()" class="lookup_input" placeholder="Type in your word ...">
           <button @click="lookUp()" class="lookup_button hvr-sweep-to-right">Search</button>
