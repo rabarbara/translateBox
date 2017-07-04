@@ -106,8 +106,14 @@
   body { font-family: 'Source Sans Pro', sans-serif; background: $main-color;}
 
   .spinner {
-    margin-top:4em;
-    color:white;
+    background: $main-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display:flex;
+    align-items: center;
   }
   .hide {
     display: none;
@@ -123,7 +129,6 @@
    box-shadow: .1em .1em .1em rgba(255,255,255,.2);
    margin:auto;
    margin-top:2em;
-
   }
   .lookup_search {
     display:flex;
@@ -204,7 +209,7 @@
   }
 
   .sk-folding-cube {
-  margin: 2em auto 0 auto;
+  margin: 0 auto;
   width: 40px;
   height: 40px;
   position: relative;
