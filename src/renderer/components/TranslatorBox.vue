@@ -13,13 +13,20 @@
           </pre>
         </div>
         <div class="spinner" v-bind:class="{hide:!spinner}">
-          <div class="sk-folding-cube">
-            <div class="sk-cube1 sk-cube"></div>
-            <div class="sk-cube2 sk-cube"></div>
-            <div class="sk-cube4 sk-cube"></div>
-            <div class="sk-cube3 sk-cube"></div>
-          </div>
+         <div>
+            <div class="cube_container">
+           <div class="sk-folding-cube">
+             <div class="sk-cube1 sk-cube"></div>
+             <div class="sk-cube2 sk-cube"></div>
+             <div class="sk-cube4 sk-cube"></div>
+             <div class="sk-cube3 sk-cube"></div>
+           </div>
+           </div>
+                    <div class="looking_for" v-bind:class="{hide:!spinner}">Searching for: {{inputText}}</div>
+         </div>
         </div>
+         
+        
       </div>
       <Explanations v-if="inputText" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
@@ -112,9 +119,25 @@
     left: 0;
     right: 0;
     bottom: 0;
-    display:flex;
+    display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+
+
+
+    .looking_for {
+      flex: 1 0 100%;
+      margin-top:2em;
+      color: white;
+      font-size: 2em;
+
+    }
+    .cube_container {
+      flex: 1 0 100%;
+    }
   }
+
   .hide {
     display: none;
   }
