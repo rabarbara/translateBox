@@ -1,6 +1,6 @@
 <template>
   <div id="content" >
-    <div v-bind:class="{hide:hide}">
+    <div v-bind:class="{hide:hide, displayExplanation:hide}">
       <div v-for="entry in entries" :key="entry.id" class="card">
         <p class="entryWord">{{entry.name}}</p>
         <div class="explanations">
@@ -32,7 +32,7 @@
   export default {
     name: 'explanations',
     // components: { SystemInformation },
-    props: ['explanation'],
+    props: ['explanation', 'displayExplanation'],
     data () {
       return {
       }

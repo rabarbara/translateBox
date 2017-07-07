@@ -26,7 +26,7 @@
          </div>
         </div>        
       </div>
-      <Explanations v-if="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
+      <Explanations v-if="displayExplanation" v-bind:display="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
   </div>
 </template>
