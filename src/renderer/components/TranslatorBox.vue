@@ -27,7 +27,7 @@
         </div>        
       </div>
       <div class="settings">
-        <span class="settings-item">Settings</span>
+        <span class="settings-item"><router-link to="/settings">Settings</router-link></span>
         <span>Help</span>
       </div>
       <Explanations v-if="displayExplanation" v-bind:display="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
@@ -220,6 +220,14 @@
     span {
       margin-left: .5em;
       color: $main-color;
+
+      a {
+        color: $main-color;
+        text-decoration: none;
+        &:hover {
+          color: darken($background-color, 50);
+        } 
+      }
     }
   }
 
