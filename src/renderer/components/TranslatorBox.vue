@@ -22,9 +22,13 @@
              <div class="sk-cube3 sk-cube"></div>
            </div>
            </div>
-                    <div class="looking_for" v-bind:class="{hide:!spinner}">Searching for: {{inputText}}</div>
+            <div class="looking_for" v-bind:class="{hide:!spinner}">Searching for: {{inputText}}</div>
          </div>
         </div>        
+      </div>
+      <div class="settings">
+        <span class="settings-item">Settings</span>
+        <span>Help</span>
       </div>
       <Explanations v-if="displayExplanation" v-bind:display="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
@@ -113,17 +117,20 @@
 </script>
 
 <style lang="scss">
+
+  $main-color: white;
+  $background-color: rgb(117, 169, 255);
+  
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-    $main-color: rgb(117, 169, 255);
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
-  body { font-family: 'Source Sans Pro', sans-serif; background: $main-color;}
+  body { font-family: 'Source Sans Pro', sans-serif; background: $background-color;}
 
   .spinner {
-    background: $main-color;
+    background: $background-color;
     position: absolute;
     top: 0;
     left: 0;
@@ -139,7 +146,7 @@
     .looking_for {
       flex: 1 0 100%;
       margin-top:2em;
-      color: white;
+      color: $main-color;
       font-size: 2em;
 
     }
@@ -157,7 +164,7 @@
     max-width: 560px;
   }
   .lookup_container {
-   border: 3px solid white;
+   border: 3px solid $main-color;
    padding: 2em;
    box-shadow: .1em .1em .1em rgba(255,255,255,.2);
    margin:auto;
@@ -176,17 +183,17 @@
   }
   .lookup_button {
     font-weight: bold;
-    border: 3px solid white;
+    border: 3px solid $main-color;
     background: rgba(255,255,255,0);
     flex: 4;
     text-transform: uppercase;
-    color: white;
+    color: $main-color;
     cursor: pointer;
   }
 
    input[type=text].lookup_input {
     background: rgba(0,0,0,0);
-    color: white;
+    color: $main-color;
     font-size: 1em;
     
     &::placeholder {
@@ -194,7 +201,7 @@
     }
   }
   .lookup_heading {
-    color: white;
+    color: $main-color;
     font-weight: normal;
     text-transform: uppercase;
     margin-bottom: .7em;
@@ -204,6 +211,17 @@
     ::-webkit-scrollbar { 
     display: none; 
   } 
+
+  .settings {
+    display:flex;
+    justify-content: flex-end;
+    margin-top: .3em;
+    font-size: .8em;
+    span {
+      margin-left: .5em;
+      color: $main-color;
+    }
+  }
 
     /* Sweep To Right */
   .hvr-sweep-to-right {
@@ -239,7 +257,7 @@
     transition-timing-function: ease-out;
   }
   .hvr-sweep-to-right:hover, .hvr-sweep-to-right:focus, .hvr-sweep-to-right:active {
-    color: $main-color;
+    color: $background-color;
   }
   .hvr-sweep-to-right:hover:before, .hvr-sweep-to-right:focus:before, .hvr-sweep-to-right:active:before {
     -webkit-transform: scaleX(1);
