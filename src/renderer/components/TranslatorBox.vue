@@ -26,7 +26,7 @@
          </div>
         </div>        
       </div>
-      <Explanations  v-if="this.displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
+      <Explanations v-if="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
     </main>
   </div>
 </template>
@@ -53,18 +53,18 @@
         winProperties: {
           width: 0,
           height: 0
-        }
+        },
+        displayExplanation: false
       }
     },
     computed: {
-      displayExplanation () {
-        // if the inputtext has something in it and the explanation was successful, only then show the explanation
-        // if the inputtext is blank or the explanation was not successful, hide the explanation component
+    },
+    watch: {
+      inputText: function () {
         if (!this.inputText) {
-          this.explanation = ''
-          return false
+          this.displayExplanation = false
+          this.resize()
         }
-        return true
       }
     },
     methods: {
@@ -77,6 +77,7 @@
           this.spinner = false
           this.explanation = response.data
           this.resize()
+          this.displayExplanation = true
         })
       .catch(e => {
         this.error = true
@@ -94,7 +95,7 @@
         let [contentWidth, contentHeight] = win.getContentSize()
         let [positionX, positionY] = win.getPosition()
         let extraHeight = height - positionY - 30
-        contentHeight <= this.winProperties.height ? win.setSize(contentWidth, extraHeight, true) : win.setSize(contentWidth, this.winProperties.height, true)
+        contentHeight === this.winProperties.height ? win.setSize(contentWidth, extraHeight, true) : win.setSize(contentWidth, this.winProperties.height, true)
         console.log(contentHeight, this.winProperties.height)
       }
     },
@@ -104,6 +105,7 @@
         let [width, height] = win.getSize()
         this.winProperties.width = Number(width)
         this.winProperties.height = Number(height)
+        console.log('createdOnce')
       }
       return getScreenProperties()
     }
