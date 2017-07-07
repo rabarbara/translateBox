@@ -63,7 +63,7 @@
       inputText: function () {
         if (!this.inputText) {
           this.displayExplanation = false
-          this.resize()
+          this.resize(0)
         }
       }
     },
@@ -88,14 +88,14 @@
         this.inputText = term.toLowerCase()
         return this.lookUp(term)
       },
-      resize () {
+      resize (expand = true) {
         /* eslint-disable no-unused-vars */
         let {width, height} = electron.remote.screen.getPrimaryDisplay().workAreaSize
         let win = electron.remote.getCurrentWindow()
         let [contentWidth, contentHeight] = win.getContentSize()
         let [positionX, positionY] = win.getPosition()
         let extraHeight = height - positionY - 30
-        contentHeight === this.winProperties.height ? win.setSize(contentWidth, extraHeight, true) : win.setSize(contentWidth, this.winProperties.height, true)
+        expand ? win.setSize(contentWidth, extraHeight, true) : win.setSize(contentWidth, this.winProperties.height, true)
         console.log(contentHeight, this.winProperties.height)
       }
     },
