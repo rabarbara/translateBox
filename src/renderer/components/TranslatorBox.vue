@@ -209,7 +209,7 @@
 
   // use this to hide the scrollbar
     ::-webkit-scrollbar { 
-    display: none; 
+    display: none;
   } 
 
   .settings {
@@ -220,7 +220,6 @@
     span {
       margin-left: .5em;
       color: $main-color;
-
       a {
         color: $main-color;
         text-decoration: none;
