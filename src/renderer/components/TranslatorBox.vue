@@ -200,6 +200,11 @@
     margin-bottom: .7em;
   }
 
+  // use this to hide the scrollbar
+    ::-webkit-scrollbar { 
+    display: none; 
+  } 
+
     /* Sweep To Right */
   .hvr-sweep-to-right {
     display: inline-block;
