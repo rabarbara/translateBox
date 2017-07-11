@@ -1,9 +1,16 @@
 <template>
   <div id="settings" class="input-form">
-    <div class="input-form-container">
-      <div>
+    <div class="input-form-container ">
+      <div class="animated slideInLeft">
         <h1 class="settings_heading">Dictionary keys</h1>
-      <input type="text" v-model="apiKey" placeholder="Paste your api key here" @keypress.enter="inputApiKey()">
+      
+      <div class="input-elements">
+        <select name="collegiate" id="collegiate">
+          <option value="md">Medical</option>
+          <option value="col">Collegiate</option>
+        </select>
+        <input type="text" v-model="apiKey" placeholder="Paste your api key here" @keypress.enter="inputApiKey()">
+      </div>
       </div>
     </div>
   </div>
@@ -40,8 +47,8 @@ export default {
 
   $main-color: white;
   $background-color: rgb(117, 169, 255);
-
-
+  $alt-color: rgb(50, 50, 50);
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
   * {
     box-sizing: border-box;
@@ -78,7 +85,14 @@ export default {
   .settings_heading {
     color: $main-color;
     margin-bottom: .5em;
-
+  }
+  select {
+    background: $main-color;
+    border: 3px solid $alt-color;
+    color: $alt-color;
+    padding: .5em;
+    font-size: .8em;
+    font-weight: bold;
   }
 
 </style>
