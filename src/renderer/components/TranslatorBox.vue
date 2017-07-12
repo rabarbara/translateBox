@@ -75,7 +75,6 @@
       lookUp (term = this.inputText) {
         this.spinner = true
         let lookUpUrl = `${credentials.merriam.medical.url}${encodeURI(term.trim())}?key=${credentials.merriam.medical.key}`
-        console.log(lookUpUrl)
         axios.get(lookUpUrl)
         .then(response => {
           this.spinner = false
@@ -100,7 +99,6 @@
         let [positionX, positionY] = win.getPosition()
         let extraHeight = height - positionY - 30
         expand ? win.setSize(contentWidth, extraHeight, true) : win.setSize(contentWidth, this.winProperties.height, true)
-        console.log(contentHeight, this.winProperties.height)
       }
     },
     created () {
@@ -109,7 +107,6 @@
         let [width, height] = win.getSize()
         this.winProperties.width = Number(width)
         this.winProperties.height = Number(height)
-        console.log('createdOnce')
       }
       return getScreenProperties()
     }
