@@ -9,6 +9,7 @@
               <p><span class="number" v-if="singleDef.number">{{singleDef.number}}</span>
                   <span class="text" v-for="text in singleDef.meaning" :key="text.id">
                     <span v-if="text.text">{{text.text}}</span><span v-if="text.it" class="special">{{text.it}}</span>
+                    <span v-if="text.un">{{text.un}}</span>
                     <span v-if="text.sx" @click="$emit('followUp', text.sx)">See:  <span class="cross-reference">{{text.sx}}</span></span>
                   </span>
                   <span v-if="singleDef.calledAlso.length > 0" class="called-also"> – Called also</span>

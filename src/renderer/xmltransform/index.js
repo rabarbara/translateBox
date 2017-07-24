@@ -22,7 +22,7 @@ let transformer = (xml) => {
           let inlineMeaning = item.descendantWithPath('dt').children.filter(item => {
             // this will have to be expanded
             // check if is a text node and has a text property or if the name of the xml element is 'it'. This excludes all other elements, such as <ca>
-            return (item.text || item.name === 'it' || item.name === 'sx')
+            return (item.text || item.name === 'it' || item.name === 'sx' || item.name === 'un')
           })
           .map(item => {
             // create a key value relationship for the definitions so that you can create a different template element in the vue template based on the key
