@@ -1,9 +1,20 @@
 let xmldoc = require('xmldoc')
 let _ = require('lodash')
 
+let suggestions = (doc) => {
+  try {
+    return doc.childrenNamed('suggestion')
+  } catch (e) {
+    return []
+  }
+}
+
 let transformer = (xml) => {
   let doc = new xmldoc.XmlDocument(xml)
   let entries = doc.childrenNamed('entry')
+  if (entries.length === 0) {
+    return suggestions(doc)
+  }
   let consumableObject = entries.map(entry => {
     // create an container object for each entry
     return {

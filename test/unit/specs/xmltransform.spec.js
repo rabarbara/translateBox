@@ -30,3 +30,12 @@ describe('xmltransform', () => {
     expect(x(xmlExample)[0].definitions[0][0]).to.have.property('wholeDefinition')
   })
 })
+
+describe('xmltransform suggestions', () => {
+  const xmlExample = `<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<entry_list version=\"1.0\">\n\t<suggestion>Septra</suggestion>\r\n\t<suggestion>spectra</suggestion>\r\n\t<suggestion>isopter</suggestion>\r\n\t<suggestion>spectral</suggestion>\r\n\t<suggestion>spider</suggestion>\r\n\t<suggestion>specular</suggestion>\r\n\t<suggestion>spectrin</suggestion>\r\n\t<suggestion>spectrum</suggestion>\r\n\t<suggestion>sputum</suggestion>\r\n\t<suggestion>septum</suggestion>\r\n</entry_list>`
+  let x = xmltransform
+  it('should receive an xml string and return a javascript object', () => {
+    expect(x(xmlExample)).to.be.an('array')
+    expect(x(xmlExample)).to.have.length(10)
+  })
+})
