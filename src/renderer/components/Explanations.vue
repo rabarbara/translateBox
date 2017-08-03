@@ -1,7 +1,18 @@
 <template>
   <div id="content" >
     <div v-bind:class="{hide:hide, displayExplanation:hide}">
-      <div v-for="entry in entries" :key="entry.id" class="card">
+
+  <div v-if="suggestion">
+    <div class="card">
+      <p class="entryWord">Did you mean?</p>
+
+      <p v-for="suggestion in entries" :key="suggestion.id" @click="$emit('followUp', suggestion)" class="suggestion">
+       <span class="cross-reference"> {{suggestion}}</span>
+      </p>
+    </div>
+  </div>
+      <div v-else>
+      <div v-for="entry in entries" :key="entry.id" class="card"  >
         <p class="entryWord">{{entry.name}}</p>
         <div class="explanations">
           <div class="explanation" v-for="definition in entry.definitions" :key="definition.id">
@@ -21,6 +32,8 @@
           </div>
         </div>
       </div>
+  </div>
+
 
     </div>
 
@@ -48,6 +61,12 @@
       },
       hide () {
         return _.isEmpty(this.explanation)
+      },
+      suggestion () {
+        if (this.entries[0].name) {
+          return false
+        }
+        return true
       }
     }
   }
@@ -147,5 +166,9 @@
     margin-top:1em;
     color: #555;
     font-size: 1.2em;
+  }
+
+  .suggestion {
+    margin-top: .7rem;
   }
 </style>

@@ -37,5 +37,6 @@ describe('xmltransform suggestions', () => {
   it('should receive an xml string and return a javascript object', () => {
     expect(x(xmlExample)).to.be.an('array')
     expect(x(xmlExample)).to.have.length(10)
+    expect(x(xmlExample)[0]).to.be.a('string')
   })
 })

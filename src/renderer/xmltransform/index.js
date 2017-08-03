@@ -3,7 +3,7 @@ let _ = require('lodash')
 
 let suggestions = (doc) => {
   try {
-    return doc.childrenNamed('suggestion')
+    return doc.childrenNamed('suggestion').map(x => x.val)
   } catch (e) {
     return []
   }
