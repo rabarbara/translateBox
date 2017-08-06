@@ -1,22 +1,23 @@
 <template>
-  <div id="settings" >
+  <div id="settings">
     <div class="input-form">
-    <div class="input-form-container">
-      <div class="">
-        <h1 class="settings_heading">Settings</h1>
-        <div class="input-elements">
-          <select name="collegiate" id="collegiate">
-            <option value="md">Medical</option>
-            <option value="col">Collegiate</option>
-          </select>
-          <input type="text" v-model="apiKey" placeholder="Paste your api key here" @keypress.enter="inputApiKey()">
+      <div class="input-form-container">
+        <div class="">
+          <h1 class="settings_heading">Settings</h1>
+          <div class="input-elements">
+            <select name="collegiate" id="collegiate">
+              <option value="md">Medical</option>
+              <option value="col">Collegiate</option>
+            </select>
+            <input type="text" v-model="apiKey" placeholder="Paste your api key here" @keypress.enter="inputApiKey()">
+          </div>
         </div>
       </div>
     </div>
-</div>
-    <button class="lookup_button">
-      <router-link to="/">Back</router-link>
-    </button>
+
+    <router-link to="/">
+      <button class="lookup_button">Back</button>
+    </router-link>
 
   </div>
 </template>
@@ -64,14 +65,6 @@ body {
   background: $background-color;
 }
 
-.input-form {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: $background-color;
-}
 
 .input-form-container {
   display: flex;
