@@ -24,7 +24,7 @@
            </div>
             <div class="looking_for" v-bind:class="{hide:!spinner}">Searching for: {{inputText}}</div>
          </div>
-        </div>        
+        </div>
       </div>
       <div class="settings">
         <span class="settings-item"><router-link to="/settings">Settings</router-link></span>
@@ -40,9 +40,9 @@
   import credentials from '@/components/credentials/credential'
   import Explanations from '@/components/Explanations'
   import electron from 'electron'
-  
+
   axios.defaults.adapter = require('axios/lib/adapters/http')
-  
+
   export default {
     name: 'translator-box',
     components: { Explanations },
@@ -73,19 +73,21 @@
     },
     methods: {
       lookUp (term = this.inputText) {
-        this.spinner = true
-        let lookUpUrl = `${credentials.merriam.medical.url}${encodeURI(term.trim())}?key=${credentials.merriam.medical.key}`
-        axios.get(lookUpUrl)
-        .then(response => {
-          this.spinner = false
-          this.explanation = response.data
-          this.resize()
-          this.displayExplanation = true
-        })
-      .catch(e => {
-        this.error = true
-        this.errorMessage = e
-      })
+        if (this.inputText) {
+          this.spinner = true
+          let lookUpUrl = `${credentials.merriam.medical.url}${encodeURI(term.trim())}?key=${credentials.merriam.medical.key}`
+          axios.get(lookUpUrl)
+            .then(response => {
+              this.spinner = false
+              this.explanation = response.data
+              this.resize()
+              this.displayExplanation = true
+            })
+            .catch(e => {
+              this.error = true
+              this.errorMessage = e
+            })
+        }
       },
       followUp (term) {
         this.inputText = term.toLowerCase()
@@ -117,7 +119,7 @@
 
   $main-color: white;
   $background-color: rgb(117, 169, 255);
-  
+
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
   * {
     box-sizing: border-box;
@@ -192,7 +194,7 @@
     background: rgba(0,0,0,0);
     color: $main-color;
     font-size: 1em;
-    
+
     &::placeholder {
       color: rgba(255,255,255,.6);
     }
@@ -205,9 +207,9 @@
   }
 
   // use this to hide the scrollbar
-    ::-webkit-scrollbar { 
+    ::-webkit-scrollbar {
     display: none;
-  } 
+  }
 
   .settings {
     display:flex;
@@ -222,7 +224,7 @@
         text-decoration: none;
         &:hover {
           color: darken($background-color, 50);
-        } 
+        }
       }
     }
   }
@@ -284,7 +286,7 @@
   position: relative;
   -webkit-transform: scale(1.1);
       -ms-transform: scale(1.1);
-          transform: scale(1.1); 
+          transform: scale(1.1);
 }
 .sk-folding-cube .sk-cube:before {
   content: '';
@@ -318,7 +320,7 @@
 }
 .sk-folding-cube .sk-cube3:before {
   -webkit-animation-delay: 0.6s;
-          animation-delay: 0.6s; 
+          animation-delay: 0.6s;
 }
 .sk-folding-cube .sk-cube4:before {
   -webkit-animation-delay: 0.9s;
@@ -328,31 +330,31 @@
   0%, 10% {
     -webkit-transform: perspective(140px) rotateX(-180deg);
             transform: perspective(140px) rotateX(-180deg);
-    opacity: 0; 
+    opacity: 0;
   } 25%, 75% {
     -webkit-transform: perspective(140px) rotateX(0deg);
             transform: perspective(140px) rotateX(0deg);
-    opacity: 1; 
+    opacity: 1;
   } 90%, 100% {
     -webkit-transform: perspective(140px) rotateY(180deg);
             transform: perspective(140px) rotateY(180deg);
-    opacity: 0; 
-  } 
+    opacity: 0;
+  }
 }
 
 @keyframes sk-foldCubeAngle {
   0%, 10% {
     -webkit-transform: perspective(140px) rotateX(-180deg);
             transform: perspective(140px) rotateX(-180deg);
-    opacity: 0; 
+    opacity: 0;
   } 25%, 75% {
     -webkit-transform: perspective(140px) rotateX(0deg);
             transform: perspective(140px) rotateX(0deg);
-    opacity: 1; 
+    opacity: 1;
   } 90%, 100% {
     -webkit-transform: perspective(140px) rotateY(180deg);
             transform: perspective(140px) rotateY(180deg);
-    opacity: 0; 
+    opacity: 0;
   }
 }
 </style>
