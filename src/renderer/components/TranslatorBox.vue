@@ -369,8 +369,13 @@
   font-size: 1.5rem;
   line-height: 1;
   color: $main-color;
-  font-weight: bold;
+  // font-weight: bold;
+  -webkit-app-region: drag;
   cursor: move;
+  user-select: none;
+
+
+
 
 }
 </style>
