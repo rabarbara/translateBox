@@ -1,17 +1,38 @@
 <template>
-  <div id="settings">
-    <div class="input-form">
+  <div id="settings" class="settings_container">
+
+    <h1 class="settings_heading">Settings</h1>
+
+    <div class="input-form" v-if="keys.length === 0">
       <div class="input-form-container">
         <div class="">
-          <h1 class="settings_heading">Settings</h1>
+
           <div class="input-elements">
-            <select name="collegiate" id="collegiate">
-              <option value="md">Medical</option>
-              <option value="col">Collegiate</option>
-            </select>
-            <input type="text" v-model="apiKey" placeholder="Paste your api key here" @keypress.enter="inputApiKey()">
+            <p class="notification">You require an api key from <a href="https://www.dictionary.com">Merriam-Webster's Dictionary Api</a> for the
+              TranslateBox to work properly.</p>
+
+
+            <select v-model="apiKey.type">
+    <option >Medical</option>
+    <option>Collegiate</option>
+  </select>
+
+            <input type="text" v-model="apiKey.value" placeholder="Paste your api key here" @keypress.enter="inputApiKey()">
+            <button
+              @click="inputApiKey()">Confirm</button>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-else>
+      <div class="apiKey">
+        <h2>Activated keys</h2>
+        <ul v-for="(key, index) in keys" :key="key.id" class="keys">
+          <li>
+            {{key.type}}<button @click="deleteApiKey(index)">X</button>
+          </li>
+        </ul>
+
       </div>
     </div>
 
@@ -22,27 +43,42 @@
   </div>
 </template>
 
+
 <script>
 import electron from 'electron'
 export default {
   name: 'settings',
   data () {
     return {
-      apiKey: '',
-      print: ''
+      apiKey: {
+        type: '',
+        value: ''
+      },
+      print: '',
+      keys: [],
+      settings: electron.remote.require('electron-settings')
     }
   },
   computed: {
   },
   methods: {
     inputApiKey () {
-      let settings = electron.remote.require('electron-settings')
-      let apiKey = this.apiKey
-      settings.set('medical', apiKey)
+      this.settings.set(this.apiKey.type, this.apiKey.value)
+      this.keys.push({type: this.apiKey.type, value: this.apiKey.value})
+      this.apiKey.type = ''
+      this.apiKey.value = ''
+    },
+    deleteApiKey (index) {
+      this.keys.splice(index, 1)
+      this.settings.delete(this.keys[index].type)
     },
     displays () {
-      let settings = electron.remote.require('electron-settings')
-      this.print = settings.get('medical')
+      this.print = this.settings.getAll()
+    }
+  },
+  created () {
+    if (this.settings.get('medical')) {
+      this.keys.push({type: 'medical', value: this.settings.get('medical')})
     }
   }
 }
@@ -52,7 +88,7 @@ export default {
 $main-color: white;
 $background-color: rgb(117, 169, 255);
 $alt-color: rgb(50, 50, 50);
-// @import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css');
+
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 * {
   box-sizing: border-box;
@@ -66,12 +102,27 @@ body {
 }
 
 
+h2 {
+  color: white;
+}
+
+ul.keys {
+
+
+
+  li {
+    margin: .5em 0;
+
+  }
+}
+
 .input-form-container {
   display: flex;
   justify-content: flex-start; // align-items: center;
   &>div {
-    margin-top: 1em;
+    // margin-top: 1em;
     margin-left: 2em;
+    padding: 10px;
   }
   input {
     background-color: $background-color;
@@ -111,5 +162,19 @@ select {
     color: $main-color;
     text-decoration: none;
   }
+
+}
+
+  a {
+    color: $main-color;
+    // text-decoration: none;
+  }
+p.notification {
+  margin-bottom: 2rem;
+
+}
+
+.settings_container {
+  padding: 10px;
 }
 </style>
