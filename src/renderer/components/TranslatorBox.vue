@@ -370,7 +370,7 @@
   line-height: 1;
   color: $main-color;
   font-weight: bold;
-  cursor: pointer;
+  cursor: move;
 
 }
 </style>
