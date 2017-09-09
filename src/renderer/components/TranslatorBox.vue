@@ -2,6 +2,9 @@
   <div id="container">
     <main>
       <div class="lookup_container">
+        <div class="reposition">
+  ☒
+</div>
         <h1 class="lookup_heading">What do you want to know?</h1>
         <div class="lookup_search">
           <input type="text" v-model="inputText" @keyup.enter="lookUp()" class="lookup_input" placeholder="Type in your word ...">
@@ -163,6 +166,7 @@
     max-width: 560px;
   }
   .lookup_container {
+   position: relative;
    border: 3px solid $main-color;
    padding: 2em;
    box-shadow: .1em .1em .1em rgba(255,255,255,.2);
@@ -356,5 +360,17 @@
             transform: perspective(140px) rotateY(180deg);
     opacity: 0;
   }
+}
+
+.reposition {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: $main-color;
+  font-weight: bold;
+  cursor: pointer;
+
 }
 </style>
