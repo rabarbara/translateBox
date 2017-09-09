@@ -33,24 +33,24 @@
       <router-link to="/">
         <button class="lookup_button">Back</button>
       </router-link>
-      <div class="additional-keys" v-if="keys.length > 0">
+      <div class="additional-keys" v-if="apiKeyList.length > 0 && keys.length > 0">
         <p>Want to add additional keys?</p>
         <div class="apikey_container">
           <select v-model="apiKey.type">
-            <option>Medical</option>
-            <option>Collegiate</option>
+            <option v-for="(type, index) in apiKeyList" :key="type.id">{{type}}</option>
           </select>
           <input class="input-api" type="text" v-model="apiKey.value" placeholder="Paste your api key here and press enter" @keypress.enter="inputApiKey()">
         </div>
       </div>
     </div>
   </div>
+
 </template>
 
 
 
 <script>
-import electron from 'electron'
+import _ from 'lodash'
 export default {
   name: 'settings',
   data () {
@@ -59,32 +59,47 @@ export default {
         type: '',
         value: ''
       },
+      apiKeyType: '',
+      apiKeyList: ['Medical', 'Collegiate'],
       print: '',
-      keys: [],
-      settings: electron.remote.require('electron-settings')
+      keys: []
     }
   },
   computed: {
   },
   methods: {
     inputApiKey () {
-      this.settings.set(this.apiKey.type, this.apiKey.value)
+      let settings = require('electron').remote.require('electron-settings')
+      settings.set(this.apiKey.type, this.apiKey.value)
+      console.log(settings.getAll())
       this.keys.push({type: this.apiKey.type, value: this.apiKey.value})
+      console.log(this.apiKeyList.indexOf(this.apiKey.type))
+      this.apiKeyList.splice(this.apiKeyList.indexOf(this.apiKey.type), 1)
       this.apiKey.type = ''
       this.apiKey.value = ''
     },
     deleteApiKey (index) {
-      this.settings.delete(this.keys[index].type)
+      let settings = require('electron').remote.require('electron-settings')
+      settings.delete(this.keys[index].type)
+      this.apiKeyList.push(this.keys[index].type)
       this.keys.splice(index, 1)
     },
     displays () {
-      this.print = this.settings.getAll()
+      let settings = require('electron').remote.require('electron-settings')
+      this.print = settings.getAll()
     }
   },
-  created () {
-    if (this.settings.get('medical')) {
-      this.keys.push({type: 'medical', value: this.settings.get('medical')})
+  mounted () {
+    let settings = require('electron').remote.require('electron-settings')
+    let apiKeyList = ['Medical', 'Collegiate']
+    let allDictKeys = settings.getAll()
+    let remaining = _.difference(apiKeyList, Object.keys(allDictKeys))
+    this.apiKeyList = remaining
+    let keys = []
+    for (let key in allDictKeys) {
+      keys.push({ type: key, value: allDictKeys[key] })
     }
+    this.keys = keys
   }
 }
 </script>
@@ -204,6 +219,23 @@ p.notification {
 .back {
   display: flex;
   justify-content: space-between;
+
+  .apikey_container {
+    @extend .apikey_container;
+    input {
+      @extend .input;
+      padding: 3px;
+    }
+    select {
+      @extend select;
+      font-size: .8rem;
+      padding: 1px;
+      option {
+        font-size:.8rem;
+        padding: 0;
+      }
+    }
+  }
 }
 
 
