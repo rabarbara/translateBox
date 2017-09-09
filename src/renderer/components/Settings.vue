@@ -72,17 +72,15 @@ export default {
   methods: {
     inputApiKey () {
       let settings = require('electron').remote.require('electron-settings')
-      settings.set(this.apiKey.type, this.apiKey.value)
-      console.log(settings.getAll())
+      settings.set(`apiKeys.${this.apiKey.type}`, this.apiKey.value)
       this.keys.push({type: this.apiKey.type, value: this.apiKey.value})
-      console.log(this.apiKeyList.indexOf(this.apiKey.type))
       this.apiKeyList.splice(this.apiKeyList.indexOf(this.apiKey.type), 1)
       this.apiKey.type = ''
       this.apiKey.value = ''
     },
     deleteApiKey (index) {
       let settings = require('electron').remote.require('electron-settings')
-      settings.delete(this.keys[index].type)
+      settings.delete(`apiKeys.${this.keys[index].type}`)
       this.apiKeyList.push(this.keys[index].type)
       this.keys.splice(index, 1)
     },
@@ -94,12 +92,12 @@ export default {
   mounted () {
     let settings = require('electron').remote.require('electron-settings')
     let apiKeyList = ['Medical', 'Collegiate']
-    let allDictKeys = settings.getAll()
-    let remaining = _.difference(apiKeyList, Object.keys(allDictKeys))
+    let allApiKeys = settings.get('apiKeys')
+    let remaining = _.difference(apiKeyList, Object.keys(allApiKeys))
     this.apiKeyList = remaining
     let keys = []
-    for (let key in allDictKeys) {
-      keys.push({ type: key, value: allDictKeys[key] })
+    for (let key in allApiKeys) {
+      keys.push({ type: key, value: allApiKeys[key] })
     }
     this.keys = keys
   }
