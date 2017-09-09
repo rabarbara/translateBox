@@ -1,25 +1,19 @@
 <template>
   <div id="settings" class="settings_container">
-
     <h1 class="settings_heading">Settings</h1>
-
     <div class="input-form" v-if="keys.length === 0">
       <div class="input-form-container">
         <div class="">
-
           <div class="input-elements">
-            <p class="notification">You require an api key from <a href="https://www.dictionary.com">Merriam-Webster's Dictionary Api</a> for the
-              TranslateBox to work properly.</p>
-
-
-            <select v-model="apiKey.type">
-    <option >Medical</option>
-    <option>Collegiate</option>
-  </select>
-
-            <input type="text" v-model="apiKey.value" placeholder="Paste your api key here" @keypress.enter="inputApiKey()">
-            <button
-              @click="inputApiKey()">Confirm</button>
+            <p class="notification">You require an api key from
+              <a href="https://www.dictionary.com">Merriam-Webster's Dictionary Api</a> for the TranslateBox to work properly.</p>
+            <div class="apikey_container">
+              <select v-model="apiKey.type">
+                <option>Medical</option>
+                <option>Collegiate</option>
+              </select>
+              <input class="input-api" type="text" v-model="apiKey.value" placeholder="Paste your api key here and press enter" @keypress.enter="inputApiKey()">
+            </div>
           </div>
         </div>
       </div>
@@ -29,19 +23,30 @@
         <h2>Activated keys</h2>
         <ul v-for="(key, index) in keys" :key="key.id" class="keys">
           <li>
-            {{key.type}}<button @click="deleteApiKey(index)">X</button>
+            {{key.type}}
+            <button @click="deleteApiKey(index)">X</button>
           </li>
         </ul>
-
       </div>
     </div>
-
-    <router-link to="/">
-      <button class="lookup_button">Back</button>
-    </router-link>
-
+    <div class="back">
+      <router-link to="/">
+        <button class="lookup_button">Back</button>
+      </router-link>
+      <div class="additional-keys" v-if="keys.length > 0">
+        <p>Want to add additional keys?</p>
+        <div class="apikey_container">
+          <select v-model="apiKey.type">
+            <option>Medical</option>
+            <option>Collegiate</option>
+          </select>
+          <input class="input-api" type="text" v-model="apiKey.value" placeholder="Paste your api key here and press enter" @keypress.enter="inputApiKey()">
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
 
 
 <script>
@@ -69,8 +74,8 @@ export default {
       this.apiKey.value = ''
     },
     deleteApiKey (index) {
-      this.keys.splice(index, 1)
       this.settings.delete(this.keys[index].type)
+      this.keys.splice(index, 1)
     },
     displays () {
       this.print = this.settings.getAll()
@@ -116,6 +121,14 @@ ul.keys {
   }
 }
 
+.input {
+  background-color: $background-color;
+  border: 3px solid $main-color;
+  padding: 1em;
+  color: $main-color;
+  font-size: 1em;
+}
+
 .input-form-container {
   display: flex;
   justify-content: flex-start; // align-items: center;
@@ -125,11 +138,7 @@ ul.keys {
     padding: 10px;
   }
   input {
-    background-color: $background-color;
-    border: 3px solid $main-color;
-    padding: 1em;
-    color: $main-color;
-    font-size: 1em;
+    @extend .input;
   }
 }
 
@@ -177,4 +186,28 @@ p.notification {
 .settings_container {
   padding: 10px;
 }
+.apikey_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  select {
+    height: 80%;
+  }
+
+  .input-api {
+    width: 100%;
+    margin-left: 1em;
+    @extend .input;
+  }
+}
+
+.back {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+
+
 </style>
