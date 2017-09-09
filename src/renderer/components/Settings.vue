@@ -22,8 +22,10 @@
       <div class="apiKey">
         <h2>Activated keys</h2>
         <ul v-for="(key, index) in keys" :key="key.id" class="keys">
-          <li>
-            {{key.type}}
+          <li class="key">
+            <span>
+  {{key.type}}
+</span>
             <button @click="deleteApiKey(index)">X</button>
           </li>
         </ul>
@@ -130,8 +132,30 @@ ul.keys {
 
 
 
-  li {
-    margin: .5em 0;
+  li.key {
+    margin: 1em 0;
+    color: $main-color;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1rem;
+    span {
+        font-size: 1.3rem;
+    }
+  }
+
+  button {
+    margin-left: 20px;
+    line-height: 1;
+    padding: 3px;
+    color: $background-color;
+    // background: rgba(0,0,0,0);
+    background: $main-color;
+    border: 2px solid $main-color;
+    // padding: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+
 
   }
 }
@@ -217,6 +241,7 @@ p.notification {
 }
 
 .back {
+  margin-top: 3rem;
   display: flex;
   justify-content: space-between;
 
