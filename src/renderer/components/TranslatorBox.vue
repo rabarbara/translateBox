@@ -30,7 +30,8 @@
         </div>
       </div>
       <div class="settings">
-        <span class="settings-item"><router-link to="/settings">Settings</router-link></span>
+        <span class="settings-item"
+  @click="resizeToOriginal(0)" ><router-link  to="/settings">Settings</router-link></span>
         <span>Help</span>
       </div>
       <Explanations v-if="displayExplanation" v-bind:display="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
@@ -59,7 +60,9 @@
         errorMessage: '',
         winProperties: {
           width: 0,
-          height: 0
+          height: 0,
+          originalHeight: 0,
+          originalWidth: 0
         },
         displayExplanation: false
       }
@@ -104,6 +107,10 @@
         let [positionX, positionY] = win.getPosition()
         let extraHeight = height - positionY - 30
         expand ? win.setSize(contentWidth, extraHeight, true) : win.setSize(contentWidth, this.winProperties.height, true)
+      },
+      resizeToOriginal () {
+        let win = electron.remote.getCurrentWindow()
+        win.setSize(this.winProperties.originalWidth, this.winProperties.originalHeight)
       }
     },
     created () {
@@ -112,6 +119,8 @@
         let [width, height] = win.getSize()
         this.winProperties.width = Number(width)
         this.winProperties.height = Number(height)
+        this.winProperties.originalWidth = Number(width)
+        this.winProperties.originalHeight = Number(height)
       }
       return getScreenProperties()
     }
