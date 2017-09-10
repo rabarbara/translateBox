@@ -8,12 +8,8 @@
             <p class="notification">You require an api key from
               <a href="https://www.dictionary.com">Merriam-Webster's Dictionary Api</a> for the TranslateBox to work properly.</p>
             <div class="apikey_container">
-              <select v-model="apiKey.type"
-  :class="{warning:missingSelect}"
->
-
-  <option selected value="" disabled>Choose key</option>
-
+              <select v-model="apiKey.type" :class="{warning:missingSelect}">
+                <option selected value="" disabled>Choose key</option>
                 <option>Medical</option>
                 <option>Collegiate</option>
               </select>
@@ -26,22 +22,22 @@
     <div v-else>
       <div class="main_container">
 
-  <div class="apiKey">
-    <h2>Activated keys</h2>
-    <ul v-for="(key, index) in keys" :key="key.id" class="keys">
-      <li class="key">
-        <span>
+        <div class="apiKey">
+          <h2>Activated keys</h2>
+          <ul v-for="(key, index) in keys" :key="key.id" class="keys">
+            <li class="key">
+              <span>
           {{key.type}}
         </span>
-        <button @click="deleteApiKey(index)">X</button>
-      </li>
-    </ul>
-  </div>
+              <button @click="deleteApiKey(index)">X</button>
+            </li>
+          </ul>
+        </div>
 
-  <div class="shortcut_container">
-    Current shortcut: <strong>{{shortcut}}</strong>
+        <div class="shortcut_container">
+          Current shortcut: <strong>{{shortcut}}</strong>
 
-  </div>
+        </div>
 
       </div>
     </div>
@@ -63,6 +59,7 @@
   </div>
 
 </template>
+
 
 
 
@@ -245,7 +242,11 @@ p.notification {
 }
 
 .settings_container {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
+  height: 100vh;
+  justify-content: space-between;
 }
 .apikey_container {
   display: flex;
@@ -263,7 +264,7 @@ p.notification {
 }
 
 .back {
-  margin-top: 3rem;
+
   display: flex;
   justify-content: space-between;
 
