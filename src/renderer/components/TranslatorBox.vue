@@ -380,7 +380,8 @@
   color: $main-color;
   // font-weight: bold;
   -webkit-app-region: drag;
-  cursor: move;
+  -webkit-cursor: move;
+  cursor:move;
   user-select: none;
 
 
