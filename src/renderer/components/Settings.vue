@@ -8,7 +8,12 @@
             <p class="notification">You require an api key from
               <a href="https://www.dictionary.com">Merriam-Webster's Dictionary Api</a> for the TranslateBox to work properly.</p>
             <div class="apikey_container">
-              <select v-model="apiKey.type">
+              <select v-model="apiKey.type"
+  :class="{warning:missingSelect}"
+>
+
+  <option selected value="" disabled>Choose key</option>
+
                 <option>Medical</option>
                 <option>Collegiate</option>
               </select>
@@ -38,7 +43,8 @@
       <div class="additional-keys" v-if="apiKeyList.length > 0 && keys.length > 0">
         <p>Want to add additional keys?</p>
         <div class="apikey_container">
-          <select v-model="apiKey.type">
+          <select v-model="apiKey.type" :class="{warning:missingSelect}" aria-placeholder="asdf">
+            <option selected value="" disabled>Choose key</option>
             <option v-for="(type, index) in apiKeyList" :key="type.id">{{type}}</option>
           </select>
           <input class="input-api" type="text" v-model="apiKey.value" placeholder="Paste your api key here and press enter" @keypress.enter="inputApiKey()">
@@ -64,7 +70,8 @@ export default {
       apiKeyType: '',
       apiKeyList: ['Medical', 'Collegiate'],
       print: '',
-      keys: []
+      keys: [],
+      missingSelect: false
     }
   },
   computed: {
@@ -72,11 +79,16 @@ export default {
   methods: {
     inputApiKey () {
       let settings = require('electron').remote.require('electron-settings')
-      settings.set(`apiKeys.${this.apiKey.type}`, this.apiKey.value)
-      this.keys.push({type: this.apiKey.type, value: this.apiKey.value})
-      this.apiKeyList.splice(this.apiKeyList.indexOf(this.apiKey.type), 1)
-      this.apiKey.type = ''
-      this.apiKey.value = ''
+      if (this.apiKey.type) {
+        settings.set(`apiKeys.${this.apiKey.type}`, this.apiKey.value)
+        this.keys.push({ type: this.apiKey.type, value: this.apiKey.value })
+        this.apiKeyList.splice(this.apiKeyList.indexOf(this.apiKey.type), 1)
+        this.apiKey.type = ''
+        this.apiKey.value = ''
+        this.missingSelect = false
+      } else {
+        this.missingSelect = true
+      }
     },
     deleteApiKey (index) {
       let settings = require('electron').remote.require('electron-settings')
@@ -261,7 +273,12 @@ p.notification {
   }
 }
 
+select.warning {
+ @extend select;
 
+border: 3px solid red;
+
+}
 
 
 
