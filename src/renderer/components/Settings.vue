@@ -24,16 +24,25 @@
       </div>
     </div>
     <div v-else>
-      <div class="apiKey">
-        <h2>Activated keys</h2>
-        <ul v-for="(key, index) in keys" :key="key.id" class="keys">
-          <li class="key">
-            <span>
-  {{key.type}}
-</span>
-            <button @click="deleteApiKey(index)">X</button>
-          </li>
-        </ul>
+      <div class="main_container">
+
+  <div class="apiKey">
+    <h2>Activated keys</h2>
+    <ul v-for="(key, index) in keys" :key="key.id" class="keys">
+      <li class="key">
+        <span>
+          {{key.type}}
+        </span>
+        <button @click="deleteApiKey(index)">X</button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="shortcut_container">
+    Current shortcut: <strong>{{shortcut}}</strong>
+
+  </div>
+
       </div>
     </div>
     <div class="back">
@@ -71,7 +80,8 @@ export default {
       apiKeyList: ['Medical', 'Collegiate'],
       print: '',
       keys: [],
-      missingSelect: false
+      missingSelect: false,
+      shortcut: ''
     }
   },
   computed: {
@@ -112,6 +122,8 @@ export default {
       keys.push({ type: key, value: allApiKeys[key] })
     }
     this.keys = keys
+    let shortcut = settings.get('shortcut')
+    this.shortcut = shortcut
   }
 }
 </script>
@@ -277,6 +289,13 @@ select.warning {
  @extend select;
 
 border: 3px solid red;
+
+}
+
+.main_container {
+  display: flex;
+  justify-content: space-between;
+  color: $main-color;
 
 }
 

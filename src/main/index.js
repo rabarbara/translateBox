@@ -37,23 +37,26 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-  let focused = 0
-  const ret = globalShortcut.register('Alt+Space', () => {
-    console.log('working')
-    if (focused) {
+  // setting the shortcut
+  const settings = require('electron-settings')
+  let toggleWindow = () => {
+    if (mainWindow.isFocused()) {
       mainWindow.blur()
-      focused = 0
+      mainWindow.hide()
+      mainWindow.minimize()
     } else {
       mainWindow.focus()
-      focused = 1
+      mainWindow.show()
     }
-  })
-  if (!ret) {
-    console.log('registration failed')
   }
-
-  // Check whether a shortcut is registered.
-  console.log(globalShortcut.isRegistered('Alt+Space'))
+  const altSp = globalShortcut.register('Alt+Space', toggleWindow)
+  if (!altSp) {
+    const ret = globalShortcut.register('CommandOrControl+Space', toggleWindow)
+    console.log(ret, 'nekaj')
+    settings.set('shortcut', 'Ctrl+Space')
+  } else {
+    settings.set('shortcut', 'Alt+Space')
+  }
 }
 
 app.on('ready', createWindow)
