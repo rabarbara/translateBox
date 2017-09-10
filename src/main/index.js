@@ -51,9 +51,9 @@ function createWindow () {
   }
   const altSp = globalShortcut.register('Alt+Space', toggleWindow)
   if (!altSp) {
-    const ret = globalShortcut.register('CommandOrControl+Space', toggleWindow)
+    const ret = globalShortcut.register('Ctrl+Shift+Space', toggleWindow)
     console.log(ret, 'nekaj')
-    settings.set('shortcut', 'Ctrl+Space')
+    settings.set('shortcut', 'Ctrl+Shift+Space')
   } else {
     settings.set('shortcut', 'Alt+Space')
   }
