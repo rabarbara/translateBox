@@ -7,7 +7,7 @@
 </div>
         <h1 class="lookup_heading">What do you want to know?</h1>
         <div class="lookup_search">
-          <input type="text" v-model="inputText" @keyup.enter="lookUp()" class="lookup_input" placeholder="Type in your word ...">
+          <input type="text" v-model="inputText" @keyup.enter="lookUp()"   autofocus class="lookup_input" placeholder="Type in your word ...">
           <button @click="lookUp()" class="lookup_button hvr-sweep-to-right">Search</button>
         </div>
         <div v-if="errorMessage">Oops, something went wrong with the dictionary.
