@@ -2,12 +2,35 @@
   <div id="container">
     <main>
       <div class="lookup_container">
-        <div class="reposition">
-  ☒
-</div>
+        <div class="utilities">
+
+          <div class="reposition">
+
+            <svg class="icon icon-enlarge">
+              <use xlink:href="#icon-enlarge"></use>
+            </svg>
+            <symbol id="icon-enlarge" viewBox="0 0 32 32">
+              <title>enlarge</title>
+              <path d="M32 0h-13l5 5-6 6 3 3 6-6 5 5z"></path>
+              <path d="M32 32v-13l-5 5-6-6-3 3 6 6-5 5z"></path>
+              <path d="M0 32h13l-5-5 6-6-3-3-6 6-5-5z"></path>
+              <path d="M0 0v13l5-5 6 6 3-3-6-6 5-5z"></path>
+            </symbol>
+          </div>
+          <div class="poweroff" @click="powerOff">
+            <svg class="icon icon-switch">
+              <use xlink:href="#icon-switch"></use>
+            </svg>
+            <symbol id="icon-switch" viewBox="0 0 32 32">
+              <title>Exit App</title>
+              <path d="M20 4.581v4.249c1.131 0.494 2.172 1.2 3.071 2.099 1.889 1.889 2.929 4.4 2.929 7.071s-1.040 5.182-2.929 7.071c-1.889 1.889-4.4 2.929-7.071 2.929s-5.182-1.040-7.071-2.929c-1.889-1.889-2.929-4.4-2.929-7.071s1.040-5.182 2.929-7.071c0.899-0.899 1.94-1.606 3.071-2.099v-4.249c-5.783 1.721-10 7.077-10 13.419 0 7.732 6.268 14 14 14s14-6.268 14-14c0-6.342-4.217-11.698-10-13.419zM14 0h4v16h-4z"></path>
+            </symbol>
+          </div>
+
+        </div>
         <h1 class="lookup_heading">What do you want to know?</h1>
         <div class="lookup_search">
-          <input type="text" v-model="inputText" @keyup.enter="lookUp()"   autofocus class="lookup_input" placeholder="Type in your word ...">
+          <input type="text" v-model="inputText" @keyup.enter="lookUp()" autofocus class="lookup_input" placeholder="Type in your word ...">
           <button @click="lookUp()" class="lookup_button hvr-sweep-to-right">Search</button>
         </div>
         <div v-if="errorMessage">Oops, something went wrong with the dictionary.
@@ -16,28 +39,30 @@
           </pre>
         </div>
         <div class="spinner" v-bind:class="{hide:!spinner}">
-         <div>
+          <div>
             <div class="cube_container">
-           <div class="sk-folding-cube">
-             <div class="sk-cube1 sk-cube"></div>
-             <div class="sk-cube2 sk-cube"></div>
-             <div class="sk-cube4 sk-cube"></div>
-             <div class="sk-cube3 sk-cube"></div>
-           </div>
-           </div>
+              <div class="sk-folding-cube">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+              </div>
+            </div>
             <div class="looking_for" v-bind:class="{hide:!spinner}">Searching for: {{inputText}}</div>
-         </div>
+          </div>
         </div>
       </div>
       <div class="settings">
-        <span class="settings-item"
-  @click="resizeToOriginal(0)" ><router-link  to="/settings">Settings</router-link></span>
+        <span class="settings-item" @click="resizeToOriginal(0)"><router-link  to="/settings">Settings</router-link></span>
         <span>Help</span>
       </div>
-      <Explanations v-if="displayExplanation" v-bind:display="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp" v-bind:class="{hide:spinner}"></Explanations>
+      <Explanations v-if="displayExplanation" v-bind:display="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp"
+        v-bind:class="{hide:spinner}"></Explanations>
     </main>
   </div>
 </template>
+
+
 
 <script>
   import axios from 'axios'
@@ -92,6 +117,11 @@
       }
     },
     methods: {
+      powerOff () {
+        const remote = require('electron').remote
+        let w = remote.getCurrentWindow()
+        w.close()
+      },
       lookUp (term = this.inputText) {
         if (this.inputText) {
           this.spinner = true
@@ -421,11 +451,17 @@ input[type=text].lookup_input {
   }
 }
 
-.reposition {
+.utilities {
   position: absolute;
-  top: 1px;
-  right: 2px;
-  font-size: 1.5rem;
+  padding: 3px;
+  top:0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+.reposition {
+  // font-size: 1.5rem;
   line-height: 1;
   color: $main-color; // font-weight: bold;
   -webkit-app-region: drag;
@@ -433,5 +469,29 @@ input[type=text].lookup_input {
   cursor: move;
   user-select: none;
 }
+
+.poweroff {
+  margin-left: .13em;
+  // font-size: 1.5 rem;
+  line-height: 1;
+}
+
+.icon {
+  display: inline-block;
+  width: .8em;
+  height: .8em;
+  stroke-width: 0;
+  stroke: $main-color;
+  fill: $main-color;
+}
+
+.icon.icon-switch {
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+}
+
+}
+
 
 </style>
