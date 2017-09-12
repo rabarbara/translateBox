@@ -471,7 +471,7 @@ input[type=text].lookup_input {
 }
 
 .poweroff {
-  margin-left: .13em;
+  margin-left: .3em;
   // font-size: 1.5 rem;
   line-height: 1;
 }
@@ -483,6 +483,10 @@ input[type=text].lookup_input {
   stroke-width: 0;
   stroke: $main-color;
   fill: $main-color;
+}
+
+.icon.icon-enlarge {
+  transform: rotate(45deg);
 }
 
 .icon.icon-switch {
