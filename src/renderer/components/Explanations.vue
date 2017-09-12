@@ -10,28 +10,40 @@
        <span class="cross-reference"> {{suggestion}}</span>
       </p>
     </div>
-  </div><div v-else>
-      <div v-for="entry in entries" :key="entry.id" class="card"  >
-        <p class="entryWord">{{entry.name}}</p>
-        <div class="explanations">
-          <div class="explanation" v-for="definition in entry.definitions" :key="definition.id">
-            <div class="single-definition" v-for="singleDef in definition" :key="singleDef.id">
-              <p><span class="number" v-if="singleDef.number">{{singleDef.number}}</span>
-                  <span class="text" v-for="text in singleDef.meaning" :key="text.id">
-                    <span v-if="text.text">{{text.text}}</span><span v-if="text.it" class="special">{{text.it}}</span>
-                    <span v-if="text.un">{{text.un}}</span>
-                    <span v-if="text.sx" @click="$emit('followUp', text.sx)">See:  <span class="cross-reference">{{text.sx}}</span></span>
-                  </span>
-                  <span v-if="singleDef.calledAlso.length > 0" class="called-also"> – Called also</span>
-                  <span class="called-also" v-for="ca in singleDef.calledAlso" :key="ca.id">
-                    <span v-if="ca" @click="$emit('followUp', ca)" class="cross-reference">{{ca}}</span>
-                  </span>
-              </p>
-            </div>
-          </div>
+  </div><div v-else-if="entries.length > 0">
+  <div v-for="entry in entries" :key="entry.id" class="card">
+    <p class="entryWord">{{entry.name}}</p>
+    <div class="explanations">
+      <div class="explanation" v-for="definition in entry.definitions" :key="definition.id">
+        <div class="single-definition" v-for="singleDef in definition" :key="singleDef.id">
+          <p>
+            <span class="number" v-if="singleDef.number">{{singleDef.number}}</span>
+            <span class="text" v-for="text in singleDef.meaning" :key="text.id">
+              <span v-if="text.text">{{text.text}}</span>
+              <span v-if="text.it" class="special">{{text.it}}</span>
+              <span v-if="text.un">{{text.un}}</span>
+              <span v-if="text.sx" @click="$emit('followUp', text.sx)">See:
+                <span class="cross-reference">{{text.sx}}</span>
+              </span>
+            </span>
+            <span v-if="singleDef.calledAlso.length > 0" class="called-also"> – Called also</span>
+            <span class="called-also" v-for="ca in singleDef.calledAlso" :key="ca.id">
+              <span v-if="ca" @click="$emit('followUp', ca)" class="cross-reference">{{ca}}</span>
+            </span>
+          </p>
         </div>
       </div>
+    </div>
   </div>
+  </div><div v-else>
+
+  <div class="card">
+    <p class="entryWord">There is nothing here ...</p>
+
+
+  </div>
+
+    </div>
 
 
     </div>
@@ -62,7 +74,9 @@
         return _.isEmpty(this.explanation)
       },
       suggestion () {
-        if (this.entries[0].name) {
+        if (this.entries.length > 0 && this.entries[0].name) {
+          return false
+        } else if (this.entries.length === 0) {
           return false
         }
         return true
