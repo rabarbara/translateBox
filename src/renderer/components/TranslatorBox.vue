@@ -45,6 +45,8 @@
   import Explanations from '@/components/Explanations'
   import electron from 'electron'
 
+  // to get around the http CORS issue, explicitly require the http adapter by Node instead of Chrome
+  // the other one throws CORS errors
   axios.defaults.adapter = require('axios/lib/adapters/http')
 
   export default {
@@ -58,6 +60,18 @@
         spinner: false,
         error: false,
         errorMessage: '',
+        dictType: 'medical',
+        defaultdictType: 'medical',
+        dicts: {
+          'medical': {
+            url: 'http://www.dictionaryapi.com/api/references/medical/v2/xml/',
+            key: ''
+          },
+          'collegiate': {
+            url: 'http://www.dictionaryapi.com/api/references/collegiate/v2/xml/',
+            key: ''
+          }
+        },
         winProperties: {
           width: 0,
           height: 0,
@@ -81,9 +95,10 @@
       lookUp (term = this.inputText) {
         if (this.inputText) {
           this.spinner = true
-          let lookUpUrl = `${credentials.merriam.medical.url}${encodeURI(term.trim())}?key=${credentials.merriam.medical.key}`
+          let lookUpUrl = `${this.dicts[this.dictType].url}${encodeURI(term.trim())}?key=${this.dicts[this.dictType].key}`
           axios.get(lookUpUrl)
             .then(response => {
+              console.log(response.status, response.data)
               this.spinner = false
               this.explanation = response.data
               this.resize()
@@ -123,6 +138,13 @@
         this.winProperties.originalHeight = Number(height)
       }
       return getScreenProperties()
+    },
+    mounted () {
+      let settings = require('electron').remote.require('electron-settings').get('apiKeys')
+      for (let key in settings) {
+        console.log(key)
+        this.dicts[key.toLowerCase()].key = settings[key]
+      }
     }
   }
 </script>
