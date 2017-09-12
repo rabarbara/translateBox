@@ -10,8 +10,7 @@
        <span class="cross-reference"> {{suggestion}}</span>
       </p>
     </div>
-  </div>
-      <div v-else>
+  </div><div v-else>
       <div v-for="entry in entries" :key="entry.id" class="card"  >
         <p class="entryWord">{{entry.name}}</p>
         <div class="explanations">
