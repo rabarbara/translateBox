@@ -16,6 +16,11 @@ export default new Router({
       component: require('@/components/Settings')
     },
     {
+      path: '/help',
+      name: 'help',
+      component: require('@/components/Help')
+    },
+    {
       path: '*',
       redirect: '/'
     }
