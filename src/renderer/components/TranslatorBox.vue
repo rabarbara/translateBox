@@ -54,7 +54,11 @@
       </div>
       <div class="settings">
         <span class="settings-item" @click="resizeToOriginal(0)"><router-link  to="/settings">Settings</router-link></span>
-        <span>Help</span>
+
+  <span class="settings-item" @click="resizeToOriginal(0)">
+    <router-link to="/help">Help</router-link>
+  </span>
+
       </div>
       <Explanations v-if="displayExplanation" v-bind:display="displayExplanation" v-bind:explanation="this.explanation" v-on:followUp="followUp"
         v-bind:class="{hide:spinner}"></Explanations>
